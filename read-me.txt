@@ -1,0 +1,25 @@
+Page Scroller v1.0
+Creator/Designer/Developer: Dairien Boyd - http://www.dairien.com
+Donate: http://www.pagescroller.com/donate
+Tags: smooth scroll, dynamic, page animation, slideshow, jquery, plugin, theme, website, template, gallery, vertical, ipad, iphone
+
+Add smooth scrolling to your website with ease. Try one of the many navigation skins.
+
+*Requirements: jQuery 1.4+
+
+*Links:
+
+* [More Details] (http://www.pagescroller.com/)
+* [Help/Support] (http://www.pagescroller.com/documentation)
+
+== Installation ==
+
+1. Include jQuery library (version 1.4 or older) and the Page Scroller plugin within the head tag of your website
+2. Include Page Scroller CSS if intending to use a Page Scroller navigation skin.
+3. Initiate the plugin on DOM ready: $(parentElement).pageScroller();
+
+EXTRA: See example implementations within /examples/ folder
+
+== Change Log ==
+
+Version 1.0.1 - FireFox 13 destination point value resolved (6/6/2012)

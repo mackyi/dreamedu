@@ -1,0 +1,69 @@
+extends layout
+block head
+	title Dreams
+
+block content
+
+	.banner
+		.container
+			.spacer
+			.row
+				.span8.offset2
+					h1 Dreamers and Their Dreams
+					h2 A look at the Dreams of students who have partnered with DreamEdu
+			.row
+				.span10.offset1
+					.carousel.slide#myCarousel
+						ol.carousel-indicators
+							li.active(data-target="#myCarousel", data-slide-to="0")
+							li(data-target="#myCarousel", data-slide-to="1")
+							li(data-target="#myCarousel", data-slide-to="2")
+							li(data-target="#myCarousel", data-slide-to="3")
+							li(data-target="#myCarousel", data-slide-to="4")
+						.carousel-inner
+							.item.active
+								.span3.offset1
+									img(src="/img/GhidaElBanna.jpg")
+								.span4.offset1
+									.carousel-caption.center
+										h4 Ghida El Banna
+									p School: Saida Secondary Public School for Girls, Lebanon 
+									p
+										|DreamProject: I am the founder and the President of the Health Committee where my goal is to spread hygiene and health awareness in Lebanon, a limiting resource in my country. 
+									p	
+										|Dreams: Ghida wants to be a doctor and hopes to study Biology in college. 
+									p	
+										|Accomplishments:  Ghida is a Hope scholar and will be funded by the Hope foundation to attend a college in the U.S for the next four years. 
+
+							.item
+								.span3.offset1
+									img.img-rounded(src="/img/OmarAlHassan.jpg")
+								.span4.offset1
+									h4 Omar Al Hassan
+									p School: Al-Iman High School, Lebanon
+									p	
+										|Dreams: I want to go into Medicine (Cardiothorasics / Optimology )
+
+							.item
+								img(src="/img/logo_tree.png")
+								.carousel-caption
+									h4 Hi2
+									p This is a description
+							.item
+								img(src="/img/logo_tree.png")
+								.carousel-caption
+									h4 Hi3
+									p This is a description
+							.item
+								img(src="/img/logo_tree.png")
+								.carousel-caption
+									h4 Hi4
+									p This is a description
+						a.carousel-control.left(href="#myCarousel", data-slide="prev") &lsaquo;
+
+						a.carousel-control.right(href="#myCarousel", data-slide="next") &rsaquo;
+		
+
+block scripts
+	script(src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js")
+	script(src="/javascript/carousel.js")
