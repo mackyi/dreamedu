@@ -1,8 +1,20 @@
 /*navbar*/
 
+.googleform{
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+}
+.involver{
+	display: inline-block;
+	padding: 15px;
+}
+.partners{
+	padding-top: 30px;
+}
 .person{
 	display: inline-block;
-	padding: 2px;
+	padding: 3px;
 }
 .person img{
 	height: 200px;
@@ -16,7 +28,9 @@
 	font-size: 1.3em;
 	line-height: 1em;
 }
+.active a:hover{
 
+}
 #nav .active a{
 	background-image: url(/img/straws.png);
 }
@@ -35,7 +49,12 @@
 	padding: 40px 0px 40px 0px;
 	font-size: 4em;
 }
-
+.subtitle{
+	margin: -20px 0px 0px 0px;
+	font-size: 1.5em;
+	color: black;
+	line-height: 1.5em;
+}
 .wide{
 	width: 100%;
 }
@@ -112,6 +131,13 @@ body{
 	  -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
      -moz-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
           box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dreamprofile{
+	margin-top: 40px;
+	border: 1px solid;
+	border-color: #999;
+	box-shadow: 3px  3px 1px #888;
 }
 .lower{
 	background-image: url(../img/pw_maze_black.png);

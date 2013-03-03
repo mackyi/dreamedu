@@ -1,29 +1,59 @@
-extends layout
+extends scroll-layout
 block head
 	title Student Resources
+	link(rel="stylesheet", href="/css/pagescroller.css")
 block content
-	.header#resourceshead
+	.scrollheader
 		.container
+			.spacer
 			.span12
 				.pagetitle
-					|   Resources
-	.lower
-		.container
-			.row
-				.span12
-					.navbar
-						.navbar-inner
-							ul.nav
-								li.active: a(href="#") Background
-								li: a(href="#") Our Mission
-								li: a(href="#") Our Accomplishments
-								li: a(href="#") Our Executive Board
-								li: a(href="#") Our Board of Advisors
-					p.
-						DreamEdu is an organization dedicated to helping students from different socioeconomic and cultural backgrounds help themselves and their societies.  Our organization encourages them to 'dream' of a project to aid their societies, while helping them access higher education.  This program is being implemented both domestically in the United States as well as abroad through the DukeEngage program funded by Duke University.
-					p	Each of our students has a dream through which they hope to improve the lives of those around them.  
-						The members of DreamEdu work hard 	to make those dreams a reality.  
-					p	The second component is test preparation.  As competition increases, students need to get higher test scores on standardized exams in order to remain relevant and have a chance at higher education.  DreamEdu offers materials to aid preparation for the SAT, SAT II, and ACT for college applications.
-					p	The third component, and arguably the most important, is personalized advice and aid.  Students have us read their essays, and talk to us about their dreams and goals, and DreamEdu helps them happen.  
-		
+					|Resources
+				ul.nav-tabs.unstyled#nav.pageScrollerNav
+						li.active: a.black(href="#") Overview
+						li: a.black(href="#") Curriculum
+						li: a.black(href="#") Essay Submission
+						li: a.black(href="#") Applying to College Checklist
+						li: a.black(href="#") College FAQ
+	.container
+		.row
+			.span12
+				#wrapper
+					#main
+						.section
+							.description
+								|Dreamers and other students applying to college can find useful resources and tools here.
+							
+							p Information about our curriculum, a college application checklist, and a college FAQ are freely available to all
 
+							p Essay submission is a special tool for Dreamers to send application essays to mentors for review
+						.section	
+							.description Curriculum
+							p Not yet added.
+						.section
+							.description Essay Submission
+							a(href="/upload") Go here to upload essays
+						.section 
+							.description Applying to College Checklist
+							p Coming soon.
+						.section 
+							.description College FAQ
+							p Which college is right for me?
+							p What is the application process?
+							p Should I take the SAT or ACT?
+							p What are the SAT II exams?
+							p What should I write my essays on?
+							p What scholarships exist for me?
+
+							p Have another question? Submit it here:
+							a(href="/question") Question Submitter
+
+
+block scripts
+	script(src="/javascript/jquery.pagescroller.lite.js")
+	script
+		$(document).ready(function(){
+			$('body').pageScroller({
+				navigation: '#nav'
+			});
+		});

@@ -78,6 +78,12 @@ module.exports = function(app){
 		res.render('resources.jade',  {locals:{
 				user: req.user}})
 	})
+
+	app.get('/getinvolved', LocalUser, function(req, res){
+		res.render('getinvolved.jade',  {locals:{
+				user: req.user}})
+	})
+
 	app.get('/upload', LocalUser, function(req, res){
 		res.render('upload.jade', {locals:{
 				user: req.user}})
