@@ -1,0 +1,17 @@
+.navbar.navbar-fixed-top.navbar-inverse
+	.navbar-inner
+		.container
+			ul.nav.fixedmainnav
+				li: a(href="/") Home
+				li: a(href="/about") About Us
+				li: a(href="/dreams") Dreams
+				li: a(href="/getinvolved") Get Involved
+			container.pull-right
+				- if (typeof locals.user !== 'undefined')
+					a.btn.btn-primary
+						i.icon-user
+						|  
+						| #{locals.user.username}
+				- else
+					a.btn.btn-primary.pull-right(href="/login") Login &raquo
+					a.btn.btn-inverse.pull-right#navregister(href="/register") Register &raquo

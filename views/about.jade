@@ -9,10 +9,9 @@ block content
 			.span12
 				.pagetitle
 					|About Us
-				ul.nav-tabs.unstyled#nav.pageScrollerNav
+				ul.nav-pills.unstyled#nav.pageScrollerNav
 						li.active: a.black(href="#") Background
 						li: a.black(href="#") Our Mission
-						li: a.black(href="#") Our Methods
 						li: a.black(href="#") Who we are
 						li: a.black(href="#") Board of Advisors
 	.container
@@ -20,74 +19,95 @@ block content
 			.span12
 				#wrapper
 					#main
-						.section
-							.description
-								|DreamEdu is dedicated to helping disadvantaged students help themselves and their societies
-							p We offer help to students from different socioeconomic and cultural backgrounds, both domestically in the United States as well as abroad through the DukeEngage program funded by Duke University.
-							p Our organization encourages them to 'dream' of a project to aid their societies, while helping them access higher education.  This program is being implemented both 
-							p	Each of our students has a dream through which they hope to improve the lives of those around them.  
-								The members of DreamEdu work hard 	to make those dreams a reality.  
-							p	The second component is test preparation.  As competition increases, students need to get higher test scores on standardized exams in order to remain relevant and have a chance at higher education.  DreamEdu offers materials to aid preparation for the SAT, SAT II, and ACT for college applications.
-							p	The third component, and arguably the most important, is personalized advice and aid.  Students have us read their essays, and talk to us about their dreams and goals, and DreamEdu helps them happen.  
-						.section	
-							.description Our Mission Statement:
-							p.indent DreamEdu is a student-initiated advisory organization that endeavors to guide underprivileged students to strive for higher education. 
-							p.indent DreamEdu believes that access to higher education is largely a privilege influenced heavily by family support, school environment, and exposure from a young age. For many youth without these positive influences, both domestic and international, higher education can seem like an unreachable or unrealistic goal.  
-							p.indent DreamEdu aims to empower youth through its curriculum and a program that has been designed by college students attending internationally-recognized universities. By partnering with DukeEngage, mentors will live and meet their mentees personally while experiencing their environment, enabling DreamEdu to create unique personal connections that allow for a very individualized path towards a common goal.  
-							p.indent Through DreamEdu, students, referred to as ‘Dreamers,’ receive mentorship on two main foci, college applications and community leadership. The dreamer’s responsibility is to design and implement a dream within their community, defined as a practical and sustainable project to improve their community while receiving support from college students with leadership experience in a variety of organizations. 
-						.section
-							h1 section 3
+						.section#backgroundsection
+							.span5
+								.description
+									|DreamEdu is dedicated to helping disadvantaged students help themselves and their societies
+								p Our organization encourages students to 'dream' of a project to aid their societies, while helping them access higher education. We offer help to students from different socioeconomic and cultural backgrounds, both domestically in the United States as well as abroad through the DukeEngage program funded by Duke University.
+						.section#missionsection	
+							.span5
+								.description Mission Statement:
+								.subdescription {Why we act and how we do it}
+							.span5
+								.spacer
+								p DreamEdu is a student-initiated advisory organization that endeavors to guide underprivileged students to strive for higher education. DreamEdu believes that access to higher education is largely a privilege influenced heavily by family support, school environment, and exposure from a young age. For many youth without these positive influences, both domestic and international, higher education can seem like an unreachable or unrealistic goal. DreamEdu aims to empower youth through its curriculum and a program that has been designed by college students attending internationally-recognized universities. By partnering with DukeEngage, mentors will live and meet their mentees personally while experiencing their environment, enabling DreamEdu to create unique personal connections that allow for a very individualized path towards a common goal.Through DreamEdu, students, referred to as ‘Dreamers,’ receive mentorship on two main foci, college applications and community leadership. The dreamer’s responsibility is to design and implement a dream within their community, defined as a practical and sustainable project to improve their community while receiving support from college students with leadership experience in a variety of organizations. 
 						.section 
-							.description Who we are
-							.person
-								img(src='/img/leighanne.jpg')
-								h4 Leighanne Oh
-								p International Head
-							.person
-								img(src='/img/priya.jpg')
-								h4 Priya Achaibar
-								p Domestic Head
-							.person
-								img(src='/img/gaemin.jpg')
-								h4 GaeMin Lee
-								p Founding Member
-							.person
-								img(src='/img/frank.jpg')
-								h4 Frank Cai
-								p SAT Prep
-							.person
-								img(src='/img/mack.jpg')
-								h4 Mack Yi
-								p Web Development
-							.person
-								img(src='/img/defaultprofile.png')
-								h4 Isabella Kwai
-								p Curriculum
-							.person
-								img(src='/img/defaultprofile.png')
-								h4 Jason Luo
-								p Curriculum
-							.person
-								img(src='/img/defaultprofile.png')
-								h4 Rajan Patel
-								p Curriculum
+							.div(style="text-align: center")
+								.description Who we are:
+								.subdescription Meet the students behind the organization
+							.spacer
+							.row
+								.person
+									img.img-circle(src='/img/leighanne.jpg')
+									h4 Leighanne Oh
+									p International Head
+								.person
+									img.img-circle(src='/img/priya.jpg')
+									h4 Priya Achaibar
+									p Domestic Head
+								.person
+									img.img-circle(src='/img/gaemin.jpg')
+									h4 GaeMin Lee
+									p Founding Member
+								.person
+									img.img-circle(src='/img/frank.jpg')
+									h4 Frank Cai
+									p SAT Prep
+							.row
+								.person
+									img.img-circle(src='/img/mack.jpg')
+									h4 Mack Yi
+									p Web Development
+								.person
+									img.img-circle(src='/img/defaultprofile.png')
+									h4 Isabella Kwai
+									p Curriculum
+								.person
+									img.img-circle(src='/img/defaultprofile.png')
+									h4 Jason Luo
+									p Curriculum
+								.person
+									img.img-circle(src='/img/defaultprofile.png')
+									h4 Rajan Patel
+									p Curriculum
 						.section 
 							.description Board of Advisors
-							h4 Chloe Liparini	
-							p Assistant Director for Training (Contact with DukeEngage) 
-
-							h4 Babs Wise
-							p Assistant Director, Duke Office of Undergraduate Scholars and Fellows 
-							h4 David Stein	
-							p Duke’s Senior Education Partnership Coordinator/ Director of BOOST
-							
-							h4 Gen Duewer 	
-							p Duke Admissions
-							
-							h4 Ann Sjostrom	
-							p Associate Director of Duke Admissions (Guam, International, Australia/Oceania, East & Southeast Asia, China, Latin America, Middle East)
-							h4 Daniel Kimberg	
-							p StudentUdurham.org, Robertson Alumnus 
+							.row.advisor
+								.span2.offset1
+									img.widepartner(src="/img/dukeengage.png")
+								.span7
+									h4 Cloe Liparini	
+									p Assistant Director for Training (Contact with DukeEngage) 
+							.row.advisor
+								.span2.offset1
+									img.widepartner(src="/img/duke-ousf-logo.png")
+								.span7
+									h4 Babs Wise
+									p Assistant Director, Duke Office of Undergraduate Scholars and Fellows 
+							.row.advisor
+								.span2.offset1(style="text-align: center")
+									img.tallpartner(src="/img/admissions-logo.png")
+								.span7
+									h4 Gen Duewer 	
+									p Duke Admissions
+							.row.advisor
+								.span2.offset1
+									img.widepartner(src="/img/durham-regional-logo.png")
+								.span7
+									h4 David Stein	
+									p Duke’s Senior Education Partnership Coordinator/ Director of BOOST
+							.row.advisor
+								.span2.offset1(style="text-align: center")
+									img.tallpartner(src="/img/admissions-logo.png")
+								.span7
+									h4 Ann Sjostrom	
+									p Associate Director of Duke Admissions (Guam, International, Australia/Oceania, East & Southeast Asia, China, Latin America, Middle East)
+							.row.advisor
+								.span2.offset1(style="text-align: center")
+									img.widepartner(src="/img/studentu-logo.jpg")
+								.span7
+									h4 Daniel Kimberg	
+									p StudentUdurham.org, Robertson Alumnus 
 
 block scripts
 	script(src="/javascript/jquery.pagescroller.lite.js")

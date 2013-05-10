@@ -1,56 +1,36 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId,
-    passport = require('passport'),
     bcrypt = require('bcrypt'),
-    util = require('util');
+    Assignment = require('./assignment'),
+    Lesson = require('./lesson');
 
-var collection = 'user',
-    SALT_WORK_FACTOR =10;
+var collection = 'user';
 
-
-
-var schema = new Schema({
+var userSchema = new Schema({
   username: { type: String, unique: true},
-  hash:{type: String}
+  hash:{type: String},
+  userType: String,       //'mentor' or 'student'
+  fname: String,
+  lname: String,
+  bio: String,
+  picUrl: String,         //URL of profile pic
+  requests: [{        //student can request to work with a mentor
+      studentUsername: String,
+      mentorUsername: String,
+      text: String,
+      requestDate: Date
+    }],
+  mentors: [String],        //if student, these are all the associated mentors
+  students: [String],       //if mentor, these are all associated students 
+  lessons: [Lesson] //attached to student
 });
-
-schema.virtual('password')
-.get(function (){
-  return this._password;
-})
-.set(function(password){
-  this._password = password;
-  var salt = bcrypt.genSaltSync(10);
-  this.hash = bcrypt.hashSync(password, salt);
-  // this.setPassword(password);
-})
-
-// schema.methods.setPassword = function(password) {
-//   _this = this;
-//   bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-//     if(err) {return err;}
-//     bcrypt.hash(password, salt, function(err, encrypted) {
-//         if(err) {console.log(err); }
-//         _this.hash = encrypted;
-//     });
-//   });
-// }
-
-schema.methods.verifyPassword = function(password, callback) {
-  bcrypt.compare(password, this.hash, callback);
+ 
+userSchema.methods.verifyPassword = function(password, callback) {
+  bcrypt.compare(password, this.hash, function(err, res) {
+   if(err) return callback(err, null);
+    return callback(err, res);
+  });
 };
 
-schema.static('authenticate', function(email, password, callback){
-  this.findOne({email:email}, function(err, user){
-    if(err){ return callback(err); }
-    if(!user){ return callback(null, false); }
-    user.verifyPassword(password, function(err, passwordCorrect){
-      if(err){return callback(err); }
-      if(!passwordCorrect){return callback(null, false); }
-      return callback(null,user);
-    })
-  })
-})
-
-module.exports = mongoose.model(collection, schema);
+module.exports = mongoose.model(collection, userSchema);

@@ -8,14 +8,19 @@ var mongoose = require('mongoose'),
 var collection = 'file';
 
 var schema = new Schema({
-  filename: {type: String, set: changeName},
-  uploadname: {type: String},
-  type: {type: String},
-  path: {type: String, default: './public/uploads/'}
+  filename: {type: String, set: changeName}, //original upload name
+  type: {type: String}, //file type
+  //the file can be accessed at path+uploadname
+//  uploadname: String,
+  path: {type: String, default: './public/uploads/'}, 
+  date: Date, //date of upload
+  uploader: String, //uploader username
+  comments: String
 });
 
 function changeName(filename){
-  this.uploadname = uuid.v1() + filename;
+  this.path +=uuid.v1() + '/';
+//  this.uploadname = uuid.v1() + filename;
   return filename;
 }
 

@@ -10,10 +10,10 @@
     "passport":"0.1.15",
     "passport-local":"0.1.6",
     "jade": "0.27.7",
-    "cookie": "0.0.5",
     "bcrypt":"0.7.3",
-    "connect-flash": "0.1.0",
-    "node-uuid": "1.4.0"
+    "node-uuid": "1.4.0", 
+    "stylus": "0.32.x",
+    "nib":"0.9.x"
   },
   "engines": {
     "node": "0.8.x",

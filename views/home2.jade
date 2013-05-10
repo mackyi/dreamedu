@@ -1,0 +1,74 @@
+extends layout
+block head
+	title DreamEdu
+	link(rel="stylesheet", href="/css/pagescroller.css")
+block content
+	.tallbanner
+		.container
+			.row
+				.span4.offset1
+					.spacer
+					.row
+						img.logo(src="/img/logo_swing2.png", href="/")
+					.row 
+						.partners(style="margin-top: -40px")
+							span 
+								img.tallpartner(src="/img/ulyp.png")
+							span 	
+								img.widepartner(src="/img/dukeengage.png")
+							span 
+								img.widepartner(src="/img/amideast.png")
+					.row
+						.description
+							| Dream of a better world together. 
+						.subdescription
+							| Help disadvantaged youth improve their communities, attend college, and realize their dreams.
+
+					.row
+						.partners
+				.span7
+					.spacer
+					.iosSlider
+						.slider
+							.slide
+								img(src='http://i1316.photobucket.com/albums/t607/mackyi/front1_zps84d20611.jpg')
+							.slide
+								img(src='http://i1316.photobucket.com/albums/t607/mackyi/front2_zpsefdc6283.jpg')
+							.slide
+								img(src='http://i1316.photobucket.com/albums/t607/mackyi/front3_zps2f0051e1.jpg')
+							.slide
+								img(src='http://i1316.photobucket.com/albums/t607/mackyi/front4_zpsac16f5b9.jpg')
+							.slide
+								img(src='http://i1316.photobucket.com/albums/t607/mackyi/front5_zpsff26351d.jpg')
+							.slide
+								img(src='http://i1316.photobucket.com/albums/t607/mackyi/front6_zpsfb02e767.jpg')
+					.row
+						.span1
+							button.btn.prev.unselectable PREV
+						.span1.offset5
+							button.btn.next NEXT
+					
+	.lower
+		.container
+			.spacer
+			.span6
+				img.frontpicture(src="http://static.wix.com/media/511a39_ca2863f612f7e3aa18ccfdbd3446387a.jpg_srz_950_405_75_22_0.50_1.20_0.00_jpg_srz")
+			.span4.offset1
+				.row
+						.infobox
+							a(href="/dreams")
+								h2 Dream Big
+							p 
+								|Each dreamer conceptualizes a project to improve their environments, and DreamEdu helps make it a reality.
+				.row
+						.infobox(style="margin-top: 10px")
+							a(href="#")
+								h2 Make it Happen
+							p
+								|DreamEdu provides a comprehensive, straightforward curriculum enabling dreamers to improve their situations through higher education. 
+
+
+block scripts
+	script(src="/javascript/jquery.easing-1.3.js")
+	script(src="/javascript/jquery.iosslider.min.js")
+	script(src="/javascript/homescroller.js")

@@ -20,6 +20,15 @@ function LocalUser(req, res, next){
   	next();
 }
 
+function findByUsername(username, fn) {
+  user = User.findOne({ username: username});
+  if(user){
+    return fn(null, user);
+  }
+  return fn(null, null);
+}
+
+
 function checkRegister(req, res, next){
 	console.log('checking register');
 	username = req.param('username');
@@ -40,19 +49,17 @@ function checkRegister(req, res, next){
 
 module.exports = function(app){
 	app.get('/', LocalUser, function(req, res) {
-		res.render('home.jade', {locals:{
-				user: req.user}});
+		res.render('home2.jade');
 		});
 
 	app.get('/register', LocalUser, function(req, res){
-		res.render('register.jade', {locals:{
-				user: req.user}});
+		res.render('register.jade');
 		})
 
-	app.post('/register', function(req, res){
+	app.post('/register', LocalUser, function(req, res){
 		db.saveUser({
-		password: req.param('password'),
-		username: req.param('username')}
+			password: req.param('password'),
+			username: req.param('username')}
 		, function(err,docs, msg) {
 			if(docs == null){
 				res.render('register.jade', {locals: {
@@ -65,63 +72,78 @@ module.exports = function(app){
 		})
 	})
 	app.get('/about', LocalUser, function(req, res) {
-		res.render('about.jade', {locals:{
-				user: req.user}});
+		res.render('about.jade');
 	})
 
 	app.get('/dreams', LocalUser, function(req, res){
-		res.render('dreams.jade',  {locals:{
-				user: req.user}})
+		res.render('dreams.jade')
 	})
 	
 	app.get('/resources', LocalUser, function(req, res){
-		res.render('resources.jade',  {locals:{
-				user: req.user}})
+		res.render('resources.jade')
 	})
 
 	app.get('/getinvolved', LocalUser, function(req, res){
-		res.render('getinvolved.jade',  {locals:{
-				user: req.user}})
+		res.render('getinvolved.jade')
 	})
 
 	app.get('/upload', LocalUser, function(req, res){
-		res.render('upload.jade', {locals:{
-				user: req.user}})
+		res.render('upload.jade')
 	})
 
-	app.post('/file-upload', function(req, res, next) {
+	app.post('/file-upload', LocalUser, function(req, res) {
 	    console.log(req.body);
+	    console.log(req.user._id); 
 	    console.log(req.files);
 	    var tmp_path = req.files.thumbnail.path;
 	    db.saveFile({
 			name: req.files.thumbnail.name,
-			uploadpath: req.files.thumbnail.path,
+			path: './public/uploads/' + req.user.username +'/',
 			type: req.files.thumbnail.type
 			}, function(err,docs) {
 				if(err){
 					res.render('upload.jade', {locals: {
 					message: 'There was an upload error'
 					}})
-				}
-				db.getFilePath(req.files.thumbnail.name, function(err, file){
-			    	if(err) {}
-			    	var target_path = file.path + file.uploadname;
-			    	console.log(target_path);
-				    fs.rename(tmp_path, target_path, function(err) {
-				        if (err) throw err;
-				        // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-				   //      fs.unlink(tmp_path, function() {
-				   //          if (err) throw err;
-							res.render('upload.jade', {locals: {
-								message: 'File uploaded to: ' + target_path + ' - ' + req.files.thumbnail.size + ' bytes'
+				} else {
+					var target_path = docs.path + docs.filename;
+					fs.mkdir(docs.path, function(err){
+						console.log('saved file:' + docs);
+						console.log(target_path);
+						fs.rename(tmp_path, target_path, function(err){
+							if(err){
+								res.render('upload.jade', {locals: {
+									message: 'There was a database error with the file path'
 								}})
-				   //      });
-				    });
-			    }) 
-		})
-	    
-	    
+							} else{
+								fs.unlink(tmp_path, function(){
+									if(err) callback(err);
+									res.render('upload.jade', {locals: {
+										message: 'File uploaded to: ' + target_path + ' - ' + req.files.thumbnail.size + ' bytes'
+									}})
+								})
+							}		
+						})
+					})
+				}
+
+			})   
 	});
+	
+	app.get('/uploads/:uname/:uuid/:file', function(req, res){
+	  	var uname = req.params.uname
+	  		,uuid = req.params.uuid
+	    	,file = req.params.file;
+	    res.download('./public/uploads/' + uname + '/' +uuid + '/' + file);
+	  // req.user.mayViewFilesFrom(uid, function(yes){
+	   //  	if (yes) {
+	   //    		res.sendfile('/uploads/' + uid + '/' + file);
+	   //  	} else {
+	   //    		res.send(403, 'Sorry! you cant see that.');
+	   //  	}
+	  	// });
+	});
+
 
 	app.get('/login', LocalUser, function(req, res) {
 		res.render('login.jade', {locals:{

@@ -1,5 +1,134 @@
+/* messing */
+.navbar .nav,
+.navbar .nav > li {
+  float:none;
+  display:inline-block;
+  *display:inline; /* ie7 fix */
+  *zoom:1; /* hasLayout ie7 trigger */
+  vertical-align: top;
+}
+
+.navbar-inner {
+  text-align:center;
+}
+/* slider */
+
+.slider-viewport { width: 560px; height: 480px; overflow: hidden }
+
+/* slider container */
+.iosSlider {
+	/* required */
+	height: 480px;
+}
+
+/* slider */
+.iosSlider .slider {
+	/* required */
+	height: 100%;
+}
+
+/* slide */
+.iosSlider .slider .slide {
+	/* required */
+	float: left;
+}
+
+.iosSlider {
+	width: 100%;
+}
+
+.iosSlider .slider {
+	width: 100%;
+	height: 100%;
+}
+
+.iosSlider .slider .item {
+	float: left;
+	width: 50%;
+}
+
+.iosSlider .slider .item img {
+	width: 100%;
+	height: auto;
+}
+
+.unselectable {
+	opacity: 0.2;
+}
 /*navbar*/
 
+
+/*about page*/
+.advisor {
+	padding: 10px;
+}
+
+#backgroundsection{ 
+	background-image: url(/img/arms_silhouette.jpg);
+	background-position: left bottom;
+	background-repeat: no-repeat;
+}
+
+#missionsection{
+	background-color: rgb(146, 146, 146);
+}
+
+.missionbox{
+	width: 50%;
+	margin: 0px auto;
+	padding: 10px;
+}
+
+/*general use*/
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	border-left: 90px solid transparent;
+	border-right: 90px solid transparent;
+	border-top: 30px solid white;
+	margin-top: -20px;
+	margin-left: -40px;
+}
+
+span.whitebglogo{
+	background-color: rgba(0,0,0,.7);
+	position:relative;
+	left: -700px;
+	top: 40px;
+	height: 240px;
+	line-height: 240px;
+
+}
+
+/*dreams page*/
+#myCarousel{
+	background-color: rgb(233,229,129);
+}
+.dreamprofilepic{
+	margin-top: 5%;
+	height: 90%;
+	border: 10px #F6F6F6 solid;
+}
+
+.carousel-inner .item{
+	height: 400px;
+	padding-left: 50px;
+}
+
+.dreamprofile{
+	margin-top: 40px;
+	border: 1px solid;
+	border-color: #999;
+	box-shadow: 3px  3px 1px #888;
+}
+
+/* home page */
+.frontpicholder{
+	margin: 0px auto;
+}
+.frontpicture{
+	height: 280px;
+}
 .googleform{
 	float: right;
 	display: inline-block;
@@ -12,12 +141,14 @@
 	padding-top: 30px;
 }
 .person{
+	text-align: center;
+	width: 25%;
 	display: inline-block;
-	padding: 3px;
 }
 .person img{
 	height: 200px;
-	width: 130px;
+	border: 6px #E9E581 solid;
+	float: center;
 }
 .indent{
 	text-indent: 50px;
@@ -31,24 +162,38 @@
 
 }
 #nav .active a{
-	background-image: url(/img/straws.png);
+	background-color: black;
+}
+
+/* layout */
+.frontground{
+	width: 100%;
+	padding: 40px;
+	box-sizing: border-box;
+	background-image:url(/img/straws.png);
+}
+.fixedmainnav{
+	margin-left: 50px;
 }
 .description{
-	padding: 40px 0px 20px 0px;
+	font-family: 'Vollkorn', serif;
 	font-size: 2.5em;
 	color: black;
 	line-height: 1em;
 }
 .subdescription{
+	font-family: 'Vollkorn', serif;
 	font-size: 1.5em;
 	color: black;
 	line-height: 1.5em;
 }
 .pagetitle{
+	font-family: 'Vollkorn', serif;
 	padding: 40px 0px 40px 0px;
 	font-size: 4em;
 }
 .subtitle{
+	font-family: 'Vollkorn', serif;
 	margin: -20px 0px 0px 0px;
 	font-size: 1.5em;
 	color: black;
@@ -72,19 +217,20 @@
 .logo{
 	height: 240px;
 }
+.medium-logo{
+	height: 160px;
+}
 .small-logo{
 	height: 80px;
 }
 
-.carousel-inner .item{
-	height: 350px;
-}
+
 
 
 ul.nav{
 	height: 40px;
-
 }
+
 #navprofile{
 	line-height: 40px;
 }
@@ -94,10 +240,11 @@ ul.nav{
 }
 
 .navbar-inner{
+	z-index: 1;
 }
 
 body{
-	background-image: url(../img/straws.png);
+	background-color: #2B2B2B;
 }
 
 #resourceshead{
@@ -105,8 +252,11 @@ body{
 }
 
 .scrollheader{
+	z-index: 1;
 	position: fixed;
-	background-image: url(../img/straws2.png);
+	background-color: #F6F6F6;
+/*	background-image: url(../img/straws2.png); */
+	background-image: url(../img/straws4.png); 
 	width: 100%;
 	height: 160px;
 	 -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
@@ -114,7 +264,9 @@ body{
           box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
 }
 .header{
-	background-image: url(../img/straws2.png);
+	background-color: #F6F6F6;
+/*	background-image: url(../img/straws2.png); */
+	background-image: url(../img/straws4.png); 
 	width: 100%;
 	height: 120px;
 	 -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
@@ -122,25 +274,40 @@ body{
           box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
 }
 
-.banner{
-	background-image: url(../img/straws2.png);
+.footer{
+	background-color: #ddd;
 	width: 100%;
-	height: 240px;
+
+	padding: 10px 0px 0px 0px;
+}
+.banner{
+	background-color: #F6F6F6;
+	background-image: url(../img/straws4.png); 
+/*	background-image: url(../img/straws2.png); */
+	width: 100%;
+	height: 260px;
 	padding: 0px 0px 20px 0px;
 	  -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
      -moz-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
           box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
 }
 
-.dreamprofile{
-	margin-top: 40px;
-	border: 1px solid;
-	border-color: #999;
-	box-shadow: 3px  3px 1px #888;
+.tallbanner{
+	background-color: #F6F6F6;
+	background-color: #C1F0F6;
+	background-image: url(../img/straws4.png); 
+	width: 100%;
+	height: 600px;
+	padding: 0px 0px 20px 0px;
+	  -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
+     -moz-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
 }
+
 .lower{
 	background-image: url(../img/pw_maze_black.png);
 	width: 100%;
+	padding: 0px 0px 20px 0px;
 }
 
 .content{
@@ -155,6 +322,12 @@ body{
 	box-shadow: 3px  3px 1px #888;
 	background-color: #aaa;
 }
+.infobox a{
+	color: black;
+}}
+.infobox a:hover{
+	color: #222;
+}
 .sidebar{
 	padding: 10px;
 	border: 1px solid #999;
@@ -163,6 +336,10 @@ body{
 }
 .spacer{
 	padding-bottom: 40px;
+}
+.navbar .nav{
+	margin-left: 30px;
+	margin-right: 30px;
 }
 
 /* register form */	

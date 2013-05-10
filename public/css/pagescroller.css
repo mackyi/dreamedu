@@ -1,5 +1,6 @@
-#wrapper{ position:relative; width:100%; z-index: -1; padding: -40px;}
-.section{ min-height: 320px; padding: 40px; padding-top: 180px;}
+#wrapper{ position:relative; width:100%; padding: -40px; background-color: #F6F6F6; background-image: url(/img/straws.png);}
+.section{ min-height: 400px; padding: 40px; padding-top: 180px; border-bottom: 1px black solid;}
+
 
 /* NAVIGATION STYLES */
 .standardNav{
