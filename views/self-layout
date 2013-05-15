@@ -1,0 +1,44 @@
+extends user-layout
+block profile
+	ul.nav.nav-pills#myTab
+		li 
+			a(href="#profile", data-toggle="tab") Profile
+		li
+			a(href="#lessons", data-toggle="tab") My Lessons
+		li
+			a(href="#requests", data-toggle="tab") Requests
+		li
+			a(href="#settings", data-toggle="tab") Settings
+	#myTabContent.tab-content
+		.tab-pane.fade#profile
+			include includes/basicprofile
+		.tab-pane.fade#lessons
+			.row
+				.span4.offset1
+					h2 Lessons
+					lessons = locals.lessons
+					mixin format(lesson)
+						lessonurl = '/lesson/' + lesson._id
+						.row
+							.box
+								p lesson name: #{lesson.name}
+								p student: #{lesson.studentUsername}
+								p mentor: #{lesson.mentorUsername}
+								a.button.btn(href=lessonurl) Go To Lesson
+					-each lesson in lessons
+						mixin format(lesson)
+		.tab-pane.fade#requests
+			.row
+				.span4.offset1
+					h2 Incoming Requests
+					block incoming
+				.span4
+					h2 Pending Requests
+					block pending
+		.tab-pane.fade#settings
+			.row
+				.span6.offset1
+					include partials/updateInfo
+block scripts
+	script(src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js")
+	script(src="/javascript/tabs.js")

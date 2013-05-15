@@ -9,7 +9,19 @@ block content
    form#register(action='/register', method='POST')
       h1 Register your account!
       p.login Already have an account?
-        a(href="/login") Login here!
+        a(href="/login")  Login here!
+      div(style='height: 100px')
+          label Type of User(Select One):
+          label(for='mentor') Mentor    
+            input#mentor(type='radio', name='type', class='field radio', value = 'mentor') 
+          label(for='student') Student
+            input#student(type='radio', name='type', class='field radio', value = 'student') 
+      div
+        label(for='firstName') First name:
+        input#firstName(type='text', name='firstName', class="field required", title="Please provide your first name")
+      div
+        label(for='lastName') Last Name:
+        input#lastName(type='text', name='lastName', class="field required", title="Please provide your last name")
       div
         label(for='register_username') Username:
         input#register_username(type='text', name='username', class="field required", title="Please provide a username")
@@ -19,6 +31,10 @@ block content
       div
         label(for='confirm_password') Confirm Password: 
         input#confirm_password(type='password', name='confirm', class="field required", title="Confirm your password")
+      div
+        label(for='picUrl') URL to Profile Picture (optional):
+        input#picUrl(type='text', name='picUrl', class="field")
+      
       p.forgot: a(href="/forgotpassword") Forgot your password?
       .submit
         button(type='submit') Register

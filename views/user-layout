@@ -1,0 +1,30 @@
+extends layout
+block content
+	.container
+		.spacer
+		.profilehead
+			.row
+				.span3
+					picUrl = locals.pageof.picUrl
+					img.img-polaroid(src=picUrl)
+				.span8
+					.row 
+						.span2.pull-right
+							block rating
+					.row	
+						.spacer
+						.span5
+							.pageheader
+								h1 #{locals.pageof.fname} #{locals.pageof.lname} <small> (#{locals.pageof.username}) </small>
+							block type
+						block tutoring
+		.profilebody
+			block profile
+				.row
+					.span3
+						h2 Bio
+						p #{locals.pageof.bio}
+					.span4
+						block connections
+					.span3
+						block reviews

@@ -1,6 +1,6 @@
 // Module dependencies
 var mongoose = require('mongoose');
-// var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
 // var scrypt = require("scrypt");
 
 var passport = require('passport'), 
@@ -13,7 +13,7 @@ var User = require('./models/user'),
 
 //to-do: remove - just for testing
 User.find(function(err, users){ console.log(users);} );
-
+User.find({username: 'my'}, {type: 1}, function(err, user){console.log(user)});
 var SALT_WORK_FACTOR =10;
 
 passport.use(new LocalStrategy(
@@ -81,22 +81,17 @@ module.exports = {
       if(user){
         callback(null, null, "Username taken");
       } else {
-        var newUser = new User({
-                username: userInfo.username,
-                hash: userInfo.password,
-                userType: userInfo.userType,
-                fname: userInfo.fname,
-                lname: userInfo.lname,
-                picUrl: userInfo.picUrl
-              });
-
         bcrypt.genSalt(10, function(err, salt) {
  //         console.log(userInfo.password);
           bcrypt.hash(userInfo.password, salt, function(err, pwdhash) {
               if (!err) {
               var newUser = new User({
                 username: userInfo.username,
-                hash: pwdhash
+                hash: pwdhash,
+                userType: userInfo.userType,
+                fname: userInfo.fname,
+                lname: userInfo.lname,
+                picUrl: userInfo.picUrl
               });
               newUser.save(function(err) {
                 if (err) {throw err;}
@@ -135,22 +130,32 @@ module.exports = {
     // for each property in mentorInfo 
     //   if value!=''
     //     userInfo.property = 
-    
     User.find({$or: [
-      {username: mentorInfo.username}, 
-      {fname: mentorInfo.fname},
-      {lname: mentorInfo.lname},
-      {rating: { $gte: mentorInfo.minRating} },
-      {topicTags: { $in: mentorInfo.topics } }]
-    }, function (err, mentors){
-      if (!err){
-        console.log(mentors);
-        callback(null, mentors);
-      }
-      else{
-        callback(err);
-      } 
-    }).lean();
+      {username: {$in: mentorInfo.name}},
+      {fname: {$in: mentorInfo.name}},
+      {lname: {$in: mentorInfo.name}}
+      ]}, function(err, mentors){
+        if(err){
+          callback(err)
+        }  else {
+          callback(null, mentors);
+        }
+      })
+    // User.find({$or: [
+    //   {username: mentorInfo.username}, 
+    //   {fname: mentorInfo.fname},
+    //   {lname: mentorInfo.lname},
+    //   {rating: { $gte: mentorInfo.minRating} },
+    //   {topicTags: { $in: mentorInfo.topics } }]
+    // }, function (err, mentors){
+    //   if (!err){
+    //     console.log(mentors);
+    //     callback(null, mentors);
+    //   }
+    //   else{
+    //     callback(err);
+    //   } 
+    // }).lean();
   },
 
   addReview: function(studentUsername, mentorUsername, title, text, rating, reviewDate, callback){

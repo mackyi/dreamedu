@@ -23,7 +23,7 @@ var userSchema = new Schema({
     }],
   mentors: [String],        //if student, these are all the associated mentors
   students: [String],       //if mentor, these are all associated students 
-  lessons: [Lesson] //attached to student
+  lessons: [ObjectId] //attached to student
 });
  
 userSchema.methods.verifyPassword = function(password, callback) {

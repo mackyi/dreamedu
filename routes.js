@@ -55,22 +55,54 @@ module.exports = function(app){
 	app.get('/register', LocalUser, function(req, res){
 		res.render('register.jade');
 		})
+	app.get('/find', LocalUser, function(req, res){
+		res.render('find.jade');
+	}),
+	app.post('/find', LocalUser, function(req, res){
+		mentorInfo = {
+			name: req.param('parameters').split(/[\s\W]+/)
+		}
+		console.log(mentorInfo);
+		console.log(req.body);
+
+		db.findMentor(mentorInfo, function(err, mentors){
+			console.log(mentors);
+//			mentors.topicTags= mentors.topicTags.toString();
+			res.render('find.jade', {locals:{results: mentors, user: req.user}})
+		})
+		// mentors ={
+		// 	mentor1: {
+		// 		fname: 'Mack',
+		// 		lname: 'Yi',
+		// 		rating: '0',
+		// 		topicTags: 'Nothing, Sleeping, Chemistry, Math, Algebra',
+		// 		picUrl: 'http://sphotos-a.xx.fbcdn.net/hphotos-ash3/532386_4200069688061_127509570_n.jpg',
+		// 		username: 'mackyi'
+		// 	}
+		// }
+		// res.render('find.jade', {locals:{results: mentors, user: req.user}})
+	}),
 
 	app.post('/register', LocalUser, function(req, res){
+		console.log(req.body)
 		db.saveUser({
 			password: req.param('password'),
-			username: req.param('username')}
-		, function(err,docs, msg) {
-			if(docs == null){
-				res.render('register.jade', {locals: {
-					message: msg
-				}})
-			} else{
-				res.redirect('/');
+			username: req.param('username'),
+			userType: req.param('type'),
+			fname: req.param('firstName'),
+			lname: req.param('lastName'),
+			picUrl: req.param('picUrl')
 			}
-		 	
+			, function(err,docs, msg) {
+				if(!docs){
+					res.render('register.jade', {locals: {
+						message: msg
+					}})
+				} else{
+					res.redirect('/');
+				} 	
 		})
-	})
+	}),
 	app.get('/about', LocalUser, function(req, res) {
 		res.render('about.jade');
 	})

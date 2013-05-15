@@ -1,0 +1,34 @@
+extends layout 
+block head
+	title Find People
+block content
+	.header
+		.container
+			.span12
+				.pagetitle
+					|Find
+				.subtitle Search for registered Mentors and Dreamers
+	.tallbanner
+		.container
+			.spacer
+			h2 Search Terms:
+			form#search(action='/find', method='POST')
+				.row
+					.span3.offset1	
+						label(for='parameters') Name / Username: 
+				.row
+					.span3.offset1
+						input#parameters(type='text', name='parameters', class="field")
+					.span3
+						.submit
+							button.btn#searchButton(type='submit') Search!
+			.searchResults
+				h2 Results:
+				- if(typeof locals.results !== 'undefined' && locals.results.length!==0)
+					include includes/searchResults
+				- else
+					p No results.
+			.spacer
+block scripts
+	script(src="/javascript/searchform.js") 
+	//- script(src="/javascript/stars.js")
