@@ -18,6 +18,7 @@ var userSchema = new Schema({
   requests: [{        //student can request to work with a mentor
       studentUsername: String,
       mentorUsername: String,
+      from: String,
       text: String,
       requestDate: Date
     }],

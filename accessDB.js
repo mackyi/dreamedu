@@ -301,29 +301,23 @@ module.exports = {
     });
   },    
   
-  addMentorRequest: function(studentUsername, mentorUsername, text, callback){
+  addMentorRequest: function(mentor, student, from, text, callback){
     //add mentor request to student record
-    User.update({ username: studentUsername }, 
-      { $push: { mentorRequests: { 
-        studentUsername: studentUsername,
-        mentorUsername: mentorUsername,
-        text: text,
-        requestDate: new Date() } } }, 
-      { upsert: true }).exec(function(err,result){
-      if (err) return callback(err);
-    });   
-
-    //add mentor request to mentor record
-    User.update({ username: mentorUsername}, 
-      { $push: { mentorRequests: { 
-        studentUsername: studentUsername,
-        mentorUsername: mentorUsername,
-        text: text,
-        requestDate: new Date() } } }, 
-      { upsert: true }).exec(function(err,result){
-        if (err) return callback(err);
-    });
-      callback(null, true);
+    User.findOne({ username: mentor, 'requests.studentUsername': student}, function(err, user){
+        if(err) return callback(err);
+        if(user) return callback(err, 'Request already exists');
+        User.update({ username: {$in: [mentor, student]}}, 
+          { $addToSet: { requests: { 
+            studentUsername: student,
+            mentorUsername: mentor,
+            from: from,
+            text: text,
+            requestDate: new Date() } } }, 
+            {multi: true}, { upsert: true }, function(err,result){
+              if (err) return callback(err);
+              callback(null);
+        })  
+        })
   },    
 
   updatePassword: function(username, newValue, callback){

@@ -22,8 +22,9 @@ block content
 					.span3
 						.submit
 							button.btn#searchButton(type='submit') Search!
+			h2 Results:
 			.searchResults
-				h2 Results:
+				
 				- if(typeof locals.results !== 'undefined' && locals.results.length!==0)
 					include includes/searchResults
 				- else

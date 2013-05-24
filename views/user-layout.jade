@@ -17,14 +17,12 @@ block content
 							.pageheader
 								h1 #{locals.pageof.fname} #{locals.pageof.lname} <small> (#{locals.pageof.username}) </small>
 							block type
-						block tutoring
+						block request
+							.span2.pull-right
+								h4 Request Connection?
+								requesturl = '/writeRequest/' + locals.pageof.username
+								a.button.btn(href=requesturl) Make Request
 		.profilebody
 			block profile
-				.row
-					.span3
-						h2 Bio
-						p #{locals.pageof.bio}
-					.span4
-						block connections
-					.span3
-						block reviews
+				include includes/basicprofile
+				

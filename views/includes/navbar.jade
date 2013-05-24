@@ -9,10 +9,12 @@
 				li: a(href="/find") Search People
 			container.pull-right
 				- if (typeof locals.user !== 'undefined')
-					a.btn.btn-primary
+					selfurl = '/user/' + locals.user.username
+					a.btn.btn-primary(href=selfurl)
 						i.icon-user
 						|  
 						| #{locals.user.username}
+					a.btn.btn-inverse(href='/logout') Logout
 				- else
 					a.btn.btn-primary.pull-right(href="/login") Login &raquo
 					a.btn.btn-inverse.pull-right#navregister(href="/register") Register &raquo

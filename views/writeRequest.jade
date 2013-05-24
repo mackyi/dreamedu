@@ -1,0 +1,35 @@
+extends layout
+block head
+	title Write a Request
+block content
+	.header
+		.container
+			.span12
+				.pagetitle
+					| Request a Connection
+				.subtitle Connect with Mentors/Dreamers to Collaborate
+	.tallbanner
+		.container
+			.centerbox
+				fromname = locals.user.username
+				toname = locals.other.username
+				-if(locals.user.userType ==='mentor')
+					otherrole = 'Student'
+					myrole = 'Mentor'
+				-else
+					otherrole = 'Mentor'
+					myrole = 'Student'
+				actionurl = '/sendRequest/' +myrole + '/'
+				form#writeRequest(action= actionurl, method='POST')
+					label(for='from') <em> from: (#{myrole}) </em>
+					input(type = 'text', name = 'from', value = fromname, readonly)  
+					label(for='to') <em> <em> to: </em> (#{otherrole}) </em>
+					input(type = 'text', name = 'to', value = toname, readonly)  		
+					.row
+						.span3
+							label(for='message') Message:
+							textarea#message(cols='100', rows='5', name='text', type='text')
+					.submit
+						button.btn(type='submit') Send
+		
+		

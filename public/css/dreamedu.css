@@ -8,6 +8,9 @@
   vertical-align: top;
 }
 
+.grayed {
+	background-color: #eee;
+}
 .navbar-inner {
   text-align:center;
 }

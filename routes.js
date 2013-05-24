@@ -5,14 +5,14 @@ var db = require('./accessDB');
 var passport = require('passport'),
 	fs = require('fs');
 
-function checkAuth(req, res, next) {
+function checkAuth(req, res, next) { //unused
     is_logged_in = !!req.session.passport.user;
     next();
 }
 
-function ensureAuthenticated(req, res, next) {
+function ensureAuthenticated(req, res, next) { //unused
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
+  res.render('login.jade', {locals: { message: 'You must be logged in to perform this action'}})
 }
 
 function LocalUser(req, res, next){
@@ -20,20 +20,11 @@ function LocalUser(req, res, next){
   	next();
 }
 
-function findByUsername(username, fn) {
-  user = User.findOne({ username: username});
-  if(user){
-    return fn(null, user);
-  }
-  return fn(null, null);
-}
-
-
-function checkRegister(req, res, next){
+function checkRegister(req, res, next){ //not used atm
 	console.log('checking register');
 	username = req.param('username');
 	console.log(username);
-	if(db.hasUsername(req.param('username'))){
+	if(db.hasUsername(req.param('username'))){ //hasUsername is not implemented
 		res.render('register.jade', {locals: {
 				message: 'Username is taken'
 		}})
@@ -67,22 +58,9 @@ module.exports = function(app){
 
 		db.findMentor(mentorInfo, function(err, mentors){
 			console.log(mentors);
-//			mentors.topicTags= mentors.topicTags.toString();
 			res.render('find.jade', {locals:{results: mentors, user: req.user}})
 		})
-		// mentors ={
-		// 	mentor1: {
-		// 		fname: 'Mack',
-		// 		lname: 'Yi',
-		// 		rating: '0',
-		// 		topicTags: 'Nothing, Sleeping, Chemistry, Math, Algebra',
-		// 		picUrl: 'http://sphotos-a.xx.fbcdn.net/hphotos-ash3/532386_4200069688061_127509570_n.jpg',
-		// 		username: 'mackyi'
-		// 	}
-		// }
-		// res.render('find.jade', {locals:{results: mentors, user: req.user}})
 	}),
-
 	app.post('/register', LocalUser, function(req, res){
 		console.log(req.body)
 		db.saveUser({
@@ -103,26 +81,95 @@ module.exports = function(app){
 				} 	
 		})
 	}),
+
+	app.get('/user/:uid', function(req, res){
+		var username = req.params.uid;
+		db.findByUsername(username, function(err, user){
+			if(err) {return}
+			var page;
+			if(!user) res.render('home.jade', {locals: {
+				user: req.user, message: 'User page does not exist'
+			}})	
+			else{
+				db.findLessonByUser(username, function(err, lessons){
+					var lessons = lessons
+					if(user.userType == 'mentor'){
+						if(req.user && user.username === req.user.username){
+							page = 'mentor-self.jade'
+						} else {
+							page = 'mentor.jade'
+						}				
+					} else{
+						if(req.user && user.username === req.user.username){
+							page ='student-self.jade'
+						} else{
+							page = 'student.jade'
+						}
+					}
+					res.render(page, {locals: {
+						user: req.user, pageof: user, lessons: lessons
+					}})
+				}
+			)	
+		}
+	})}),
+
 	app.get('/about', LocalUser, function(req, res) {
 		res.render('about.jade');
-	})
+	}),
 
 	app.get('/dreams', LocalUser, function(req, res){
 		res.render('dreams.jade')
-	})
+	}),
 	
 	app.get('/resources', LocalUser, function(req, res){
 		res.render('resources.jade')
-	})
+	}),
 
 	app.get('/getinvolved', LocalUser, function(req, res){
 		res.render('getinvolved.jade')
-	})
+	}),
 
 	app.get('/upload', LocalUser, function(req, res){
 		res.render('upload.jade')
-	})
+	}),
 
+	app.post('/updateinfo/picUrl', function(req, res){
+		if(req.user){
+			db.updatePicUrl(req.user.username, req.param('picUrl'), function(err){
+				res.redirect('/user/' + req.user.username)
+			});
+		} else{
+			res.render('home.jade', {locals: {user: req.user, message: "You do not have permission to do that"}});
+		}
+	}),
+	app.post('/updateinfo/lname', function(req, res){
+		if(req.user){
+			db.updateLname(req.user.username, req.param('lname'), function(err){
+				res.redirect('/user/' + req.user.username)
+			});
+		} else{
+			res.render('home.jade', {locals: {user: req.user, message: "You do not have permission to do that"}});
+		}
+	}),
+	app.post('/updateinfo/fname', function(req, res){
+		if(req.user){
+			db.updateFname(req.user.username, req.param('fname'), function(err){
+				res.redirect('/user/' + req.user.username)
+			});
+		} else{
+			res.render('home.jade', {locals: {user: req.user, message: "You do not have permission to do that"}});
+		}
+	}),
+	app.post('/updateinfo/password', function(req, res){
+		if(req.user){
+			db.updatePassword(req.user.username, req.param('password'), function(err){
+				res.redirect('/user/' + req.user.username)
+			});
+		} else{
+			res.render('home.jade', {locals: {user: req.user, message: "You do not have permission to do that"}});
+		}
+	}),
 	app.post('/file-upload', LocalUser, function(req, res) {
 	    console.log(req.body);
 	    console.log(req.user._id); 
@@ -202,5 +249,61 @@ module.exports = function(app){
 		    });
 		  })(req, res, next);
 		});
+
+	app.get('/writeRequest/:toname', ensureAuthenticated, function(req, res){
+		var to = req.param('toname');
+		var student, mentor;
+		console.log(res.locals.user);
+		db.findByUsername(to, function(err, user){
+			if(err){
+				res.redirect('/home');
+			} else {
+				res.render('writeRequest.jade', {locals: {user: req.user, other: user}})
+			}
+		})
+		
+	}),
+
+	app.post('/sendRequest/:myrole', LocalUser, function(req, res){
+		var role = req.param('myrole'),
+			text= req.param('text'),
+			mentor, student, 
+			from=req.param('from'),
+			to = req.param('to');
+		if(role ==='Mentor'){
+			mentor = from
+			student = to
+		} else {
+			mentor = to
+			student = from
+		}
+
+		db.addMentorRequest(mentor, student, from, text, function(err, message){
+			if(err){
+				res.redirect('/');
+			} else if (message){
+				res.render('home2.jade', {locals: {message: message}}); //need something better than this. redirect + message. flash? 
+			} else {
+				res.redirect('/user/' + to);
+			}
+		})
+	}),
+	app.get('/acceptRequest/:fromname/:toname', function(req, res){
+		lessonInfo = {
+			studentUsername : req.params.fromname,
+			mentorUsername : req.params.toname,
+			name : req.params.toname +req.params.fromname
+		}
+		db.createLesson(lessonInfo, function(err, lessonid){
+			if(err) return res.redirect('/')
+			console.log(lessonid)
+			console.log(req.params.toname)
+			db.addLesson(req.params.fromname, lessonid, function(){
+				db.addLesson(req.params.toname, lessonid, function(){
+					res.redirect('/user/' + req.params.toname)
+				})
+			})
+		})
+	})
 }
 	

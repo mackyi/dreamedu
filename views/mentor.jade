@@ -1,0 +1,32 @@
+extends user-layout
+mixin lesson(lesson)
+	tr
+		td #{lesson.name} 
+		td #{lesson.student}
+		td #{lesson.dateStarted}
+
+block type
+	h3 Mentor
+block connections
+	h2 Lessons
+	- if(typeof locals.pageof.lessons!== 'undefined' && locals.pageof.lessons.length>0)
+		lessons = locals.pageof.lessons
+		table.table
+			thead
+				tr
+					th Name
+					th Student
+					th Date Started
+			tbody
+				-each lesson in lessons
+					mixin lesson(lesson)
+	- else
+		p This mentor has not mentored anyone.
+block reviews
+	h2 Reviews
+	p No reviews yet.
+
+block connections
+	h2 Lessons
+	p Not public.
+		
