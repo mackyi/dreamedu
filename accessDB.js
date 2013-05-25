@@ -9,7 +9,8 @@ var passport = require('passport'),
 var User = require('./models/user'),
     Assignment = require('./models/assignment'),
     File = require('./models/file'),
-    Lesson = require('./models/lesson');
+    Lesson = require('./models/lesson'),
+    Request = require('./models/request');
 
 //to-do: remove - just for testing
 User.find(function(err, users){ console.log(users);} );
@@ -208,10 +209,11 @@ module.exports = {
   },
 
   findLessonByUser: function(username, callback){
-    Lesson.find({ mentorUsername: username }, function(err,lessons){
-      if (!err){
-        callback(null, lessons);
-      }
+    Lesson.find({$or: [{mentorUsername: username}, {studentUsername: username}]}, function(err,lessons){
+      if (err){
+        return callback(err);
+      } 
+      callback(null, lessons);
     })
   },
   
@@ -224,7 +226,8 @@ module.exports = {
   addAssignment: function(assignment, lesson, callback){
     var a = new Assignment({ 
       name: assignment.name,
-      text: assignment.text
+      text: assignment.text,
+      type: assignment.type
       // ,feedback: assignment.feedback,
       // pickUrls: assignment.picUrls,
       // vidUrls: assignment.vidUrls,
@@ -239,17 +242,12 @@ module.exports = {
         //  if (err) console.log(err);
     //       return callback(null);
         // });
-
-        Lesson.findById(lesson, function(err, lesson){
-          console.log('lessonfindone '+ lesson)
-          lesson.assignments.push(assignmentid);
-          lesson.save()
-//          if (err) console.log(err);
-          callback(null);
-        });
-
+        Lesson.update({_id: lesson}, {$push: {assignments: assignmentid}}, function(err, lesson){
+          if(err) return callback(err)
+          callback(null, lesson);
+        })
       }
-      else console.log(err);
+      else callback(err);
     }); 
   },
   
@@ -277,20 +275,13 @@ module.exports = {
       dateStarted: new Date(),
     })
     l.save(function(err, lesson){
-      callback(null, lesson._id)
+      if(err) return callback(err)
+      User.update({ username: {$in: [lesson.mentorUsername, lesson.studentUsername]}}, {$addToSet: { lessons: lesson._id}}, {upsert:true, multi: true}, 
+        function(err, numberAffected, raw){
+          if (err) callback(err);
+          callback(null, numberAffected, raw);
+      });
     })
-
-    // Lesson.create({ 
-    //  name: lesson.name,
-  //     dateStarted: new Date(),
-  //     assignments: null,
-  //     chats: null
-    // }, function(err){
-  //     if (!err){
-  //       callback(null, Lesson._id);
-  //     }
-  //     else console.log(err);
-  //   });
   },
   
   addMentor: function(studentUsername, mentorUsername, callback){
@@ -303,9 +294,10 @@ module.exports = {
   
   addMentorRequest: function(mentor, student, from, text, callback){
     //add mentor request to student record
-    User.findOne({ username: mentor, 'requests.studentUsername': student}, function(err, user){
+    User.find({ username: mentor, $or: [{'requests.studentUsername': student},{'students': student}]}, function(err, user){
         if(err) return callback(err);
-        if(user) return callback(err, 'Request already exists');
+        console.log(user);
+        if(user.length>0) return callback(err, 'Request or connection already exists');
         User.update({ username: {$in: [mentor, student]}}, 
           { $addToSet: { requests: { 
             studentUsername: student,
@@ -313,12 +305,28 @@ module.exports = {
             from: from,
             text: text,
             requestDate: new Date() } } }, 
-            {multi: true}, { upsert: true }, function(err,result){
+            { upsert: true, multi: true}, function(err,result){
+              console.log('done updating')
               if (err) return callback(err);
-              callback(null);
+              callback(null, null, result);
         })  
-        })
+      })
   },    
+  confirmRequest: function(username, reqid, callback){
+    User.findOne({username: username, 'requests._id': reqid}, function(err, user){
+      if(err) return callback(err)
+      var request = user.requests.id(reqid);
+      console.log('request found:' + request)
+      callback(null, request);
+    })
+  },
+
+  removeRequest: function(reqid, callback){
+    User.update({'requests._id': reqid}, {$pull: {requests: {_id:reqid}}}, {multi: true}, function(err, result){
+      if(err) return callback(err)
+      callback(null, result);
+    })
+  },
 
   updatePassword: function(username, newValue, callback){
       bcrypt.genSalt(10, function(err, salt) {

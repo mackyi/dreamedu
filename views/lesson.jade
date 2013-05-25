@@ -1,0 +1,48 @@
+extends layout
+block content
+	.container
+		lesson = locals.lesson;
+		.spacer
+		.profilehead
+			.row
+				.span3
+					picUrl = locals.user.picUrl
+					img.img-polaroid(src=picUrl)
+				.span8
+					.row	
+						.spacer
+						.span5
+							.pageheader
+								h1 Lesson Name: #{lesson.name} 
+							h2 Mentored by #{lesson.mentorUsername} and Taught to #{lesson.studentUsername}
+		.profilebody
+			.row
+				.span3
+					h1 Post
+
+					actionurl = '/addAssignment/' + lesson._id
+					form#giveAssignment(action= actionurl, method='POST')
+						span3
+							label(for='name') Assignment Name:
+							input#name(type='text', name = 'name')
+							label(for='text') Assignment Text:
+							textarea#text(cols='100', rows='5', name='text', type='text')
+						.submit
+							button.btn(type='submit') Assign
+				.span7
+					h1 View 
+					assignments = locals.assignments
+					mixin format(assignment)
+						.row
+							.span7 
+								.assignmentbox
+									h3.assignmentname #{assignment.name}
+									p.assignmenttext #{assignment.text}
+					-if(typeof locals.assignments !== 'undefined' && locals.assignments !== null)
+							-each assignment in assignments
+								mixin format(assignment)
+
+					-else
+						p No assignments
+				.span2
+					h1 chat

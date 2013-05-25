@@ -13,9 +13,11 @@ block incoming
 		mixin format(request)
 			.row
 				.box
-					accepturl = '/acceptRequest/' + request.studentUsername + '/' + request.mentorUsername
+					accepturl = '/acceptRequest/' + request._id
+					rejecturl = '/rejectRequest/' +request._id
 					p from: #{request.studentUsername}
 					a.button.btn(href=accepturl) Accept Request
+					a.button.btn(href=rejecturl) Reject Request
 		- if(typeof requests!== 'undefined')
 			-each request in requests 
 				mixin format(request)

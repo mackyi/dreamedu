@@ -1,7 +1,4 @@
-var User = require('./models/user');
-
 var db = require('./accessDB');
-
 var passport = require('passport'),
 	fs = require('fs');
 
@@ -253,7 +250,6 @@ module.exports = function(app){
 	app.get('/writeRequest/:toname', ensureAuthenticated, function(req, res){
 		var to = req.param('toname');
 		var student, mentor;
-		console.log(res.locals.user);
 		db.findByUsername(to, function(err, user){
 			if(err){
 				res.redirect('/home');
@@ -277,8 +273,9 @@ module.exports = function(app){
 			mentor = to
 			student = from
 		}
-
+		console.log('processed info')
 		db.addMentorRequest(mentor, student, from, text, function(err, message){
+			console.log('db worked')
 			if(err){
 				res.redirect('/');
 			} else if (message){
@@ -288,21 +285,74 @@ module.exports = function(app){
 			}
 		})
 	}),
-	app.get('/acceptRequest/:fromname/:toname', function(req, res){
-		lessonInfo = {
-			studentUsername : req.params.fromname,
-			mentorUsername : req.params.toname,
-			name : req.params.toname +req.params.fromname
-		}
-		db.createLesson(lessonInfo, function(err, lessonid){
-			if(err) return res.redirect('/')
-			console.log(lessonid)
-			console.log(req.params.toname)
-			db.addLesson(req.params.fromname, lessonid, function(){
-				db.addLesson(req.params.toname, lessonid, function(){
-					res.redirect('/user/' + req.params.toname)
+
+	app.get('/rejectRequest/:requestid', ensureAuthenticated, LocalUser, function(req, res){
+		var reqid = req.param('requestid');
+		db.confirmRequest(req.user.username, reqid, function(err, request){ //confirm this is the right user doing this...
+			if(err){
+				res.redirect('/');
+			} else if(!request){
+				res.render('/user/' + req.user.username, {locals: { message: 'Permission denied'}})
+			} else {
+				db.removeRequest(reqid, function(err, request){
+					if(err){
+						res.render('home2.jade', {locals: { user: req.user, message: 'Request removal failed'}})
+					} else {
+						res.render('home2.jade', {locals: { user: req.user, message: 'Request successfully rejected'}})
+					}
 				})
+			}
+		})
+	})
+
+	app.get('/acceptRequest/:requestid', function(req, res){
+		var reqid = req.param('requestid');
+		db.confirmRequest(req.user.username, reqid, function(err, request){ //confirm this is the right user doing this...
+			if(err){
+				res.redirect('/');
+			} else if(!request){
+				res.render('/user/' + req.user.username, {locals: { message: 'Permission denied'}})
+			} else {
+				lessonInfo = {
+					studentUsername : request.studentUsername,
+					mentorUsername : request.mentorUsername,
+					name : request.studentUsername + '-' + request.mentorUsername
+				}
+				db.createLesson(lessonInfo, function(err, numberAffected, raw){
+					if(err) return res.redirect('/')
+					db.removeRequest(reqid, function(err, request){
+						if(err){
+							res.render('home2.jade', {locals: { user: req.user, message: 'Request removal failed'}}) //badd
+						} else {
+							res.render('home2.jade', {locals: { user: req.user, message: 'Request successfully accepted'}}) //badd
+						}
+					})	
+				})
+			}
+		})
+	})
+
+	app.get('/lesson/:lid', ensureAuthenticated, function(req, res){
+		lid = req.params.lid;
+		db.findLesson(lid, function(err, lesson){
+			db.findAssignments(lid, function(err, assignments){
+				console.log(assignments);
+				res.render('lesson.jade', {locals: { user: req.user, lesson: lesson, assignments: assignments}})
 			})
+		})
+	})
+
+	app.post('/addAssignment/:lid', function(req, res){
+		var lid = req.params.lid;
+		console.log(lid);
+		var assignmentInfo = {
+			name: req.param('name'),
+			text: req.param('text'),
+			type: 'text'
+		}
+		console.log(assignmentInfo)
+		db.addAssignment(assignmentInfo, lid, function(err){
+			if(!err) res.redirect('/lesson/' + lid);
 		})
 	})
 }

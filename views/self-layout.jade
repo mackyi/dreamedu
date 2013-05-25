@@ -32,12 +32,36 @@ block profile
 						p No Lessons
 		.tab-pane.fade#requests
 			.row
+				requests = locals.user.requests
+
 				.span4.offset1
-					h2 Incoming Requests
-					block incoming
+					h2 Incoming Requests	
+					mixin incoming(request)
+						.row
+							.box
+								accepturl = '/acceptRequest/' + request._id
+								rejecturl = '/rejectRequest/' +request._id
+								p from: #{request.studentUsername}
+								p message: #{request.text}
+								p received on: #{request.requestDate}
+								a.button.btn(href=accepturl) Accept Request
+								a.button.btn(href=rejecturl) Reject Request
+					- if(typeof requests!== 'undefined')
+						-each request in requests
+							-if(request.from !== locals.user.username) 
+								mixin incoming(request)
 				.span4
 					h2 Pending Requests
-					block pending
+					mixin pending(request)
+						.row
+							.box
+								p to: #{request.mentorUsername}
+								p message: #{request.text}
+								p sent on: #{request.requestDate}
+					- if(typeof requests!== 'undefined')
+						-each request in requests 
+							-if(request.from === locals.user.username) 
+								mixin pending(request)
 		.tab-pane.fade#settings
 			.row
 				.span6.offset1
