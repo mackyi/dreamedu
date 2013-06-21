@@ -1,0 +1,25 @@
+mixin lesson(lesson)
+	tr
+		td #{lesson.name} 
+		-if(lesson.mentorUsername === locals.pageof.username)
+			td Mentor
+			td #{lesson.studentUsername}
+		-else
+			td Student
+			td #{lesson.mentorUsername}	
+		td #{lesson.dateStarted}
+h2 Lessons
+- if(typeof locals.lessons!== 'undefined')
+	lessons = locals.lessons
+	table.table
+		thead
+			tr
+				th Lesson Name
+				th Role
+				th With
+				th Date Started
+		tbody
+			-each lesson in lessons
+				mixin lesson(lesson)
+- else
+	p This student has not been mentored by anyone.
